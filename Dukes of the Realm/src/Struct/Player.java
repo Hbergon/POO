@@ -6,7 +6,7 @@ public class Player {
 	private String name;
 	private ArrayList<Chateau> tab= new ArrayList<Chateau>();
 	
-	Player(String name, ArrayList<Chateau> tab){
+	public Player(String name, ArrayList<Chateau> tab){
 		this.name=name;
 		this.tab= tab;
 	}

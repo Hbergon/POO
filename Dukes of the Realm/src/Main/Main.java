@@ -1,41 +1,49 @@
 package Main;
 import Troupes.*;
+import javafx.animation.AnimationTimer;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
 import Struct.*;
 
-public class Main {
+public class Main extends Application{
+	private static AnimationTimer gameLoop;
+	static int cpt = 0;
 
-	public static void main(String[] args) {
+	
+	public void start(Stage primaryStage) {
+		
+		
 		Piquier test = new Piquier();
-		System.out.println(test.getPdv());
-		
-		Chevalier test2 = new Chevalier();
-		System.out.println(test2.getPdv());
-		
-		Onagre test3 = new Onagre();
-		System.out.println(test3.getPdv());
-		
-		Chateau testC = new Chateau();
-		System.out.println(testC.getProd());
+		Player p = new Player("fff", null);
+		Chateau testC = new Chateau(p);
 		
 		
-		testC.addToTroupe(test);
-		testC.addToTroupe(test2);
-		System.out.println(testC.getTroupe());
 		
-		testC.addToFile(test3);
-		System.out.println(testC.getList());
-		testC.removeFirstList();
-		System.out.println(testC.getList());
 		
-		/*ArrayList<Troupes> array = new ArrayList<Troupes>();
-		array.add(test);
-		array.add(test2);*/
 		
+	
+		gameLoop = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				if(cpt == 5) {
+					gameLoop.stop();
+				}
+				cpt ++;
+				testC.addToTroupe(test);
+				System.out.println(testC.getTroupe());
+				
+				
+			}
+		};
 
 		
+		
+		
+		
+		gameLoop.start();
 	}
 
 }
