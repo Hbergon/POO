@@ -21,9 +21,9 @@ public class Main extends Application{
 		Piquier test3 = new Piquier();
 		Player p = new Player("fff", null);
 		Chateau testC = new Chateau(p);
-		testC.addToFile(test2);
-		testC.addToFile(test3);
-		testC.addToFile(test);
+		testC.setTresor(5000);
+		testC.addProd(test2);
+		testC.addProd(test);
 		
 		
 		
@@ -33,24 +33,30 @@ public class Main extends Application{
 		gameLoop = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				if(cpt > 5) {
-					testC.updateProd();
+				testC.updateProd();
+				if(cpt > 5 && cpt < 10) {
+					testC.addProd(new Piquier());
 				}
-				if(cpt == 200) {
+				if(cpt == 8) {
+					testC.cancelProd(0);
+					testC.cancelProd(3);
+				}
+				if(cpt == 300) {
 					gameLoop.stop();
 				}
-				if(cpt == 15) {
+				if(cpt == 130) {
 					testC.upCastle();			
 				}
-				cpt ++;
-				System.out.println(cpt);
-				System.out.println(testC.lvl);
+				System.out.println("tour :" + cpt);
+				System.out.println("tresor :" + testC.getTresor());
+				System.out.println("lvl :" +testC.getLvl());
 				System.out.println(testC.getTroupe());
 				if(testC.file.size()>0) {
 					System.out.println(testC.getFirstList());
 				}
 				
 				
+				cpt ++;
 			}
 		};
 

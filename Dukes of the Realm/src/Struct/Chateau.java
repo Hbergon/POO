@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import Troupes.Troupes;
 
 public class Chateau extends Royaume{
-	public int lvl=1;
+	private int lvl=1;
 	private Player proprio;
 	private ArrayList<Troupes> troupe;
 	private int prod;
@@ -127,11 +127,20 @@ public class Chateau extends Royaume{
 	}
 	
 	public void increaseTresor() {
-		this.tresor = this.lvl *10;
+		this.tresor = this.tresor + this.lvl *10;
+	}
+	
+	
+	public void addProd(Troupes tr) {
+		if(this.tresor >= tr.getCout()) {
+			this.tresor = this.tresor - tr.getCout();
+			this.addToFile(tr);
+		}
 	}
 	
 	public void upCastle() {
-		if(!this.upgrade) {
+		if(!this.upgrade && this.tresor >= 1000*this.getLvl()) {
+			this.tresor = this.tresor - 1000*this.getLvl();
 			this.upgrade = true;
 			this.prodTmp = this.prod;
 			this.prod = 100 + 50*this.lvl;
@@ -155,7 +164,20 @@ public class Chateau extends Royaume{
 		}
 	}
 	
+	public void cancelProd(int ind) {
+		if((this.file.size())>=(ind+1)) {
+			Troupes tmp = this.file.get(ind);
+			if(ind !=0) {
+				this.tresor = this.tresor + tmp.getCout();
+			}else {
+				this.prod = 0;
+			}
+			this.file.remove(ind);
+		}
+	}
+	
 	public void updateProd() {
+		this.increaseTresor();
 		if(this.prod <= 0) {
 			this.endProd();
 		}else {
