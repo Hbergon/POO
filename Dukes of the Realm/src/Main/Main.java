@@ -17,8 +17,13 @@ public class Main extends Application{
 		
 		
 		Piquier test = new Piquier();
+		Piquier test2 = new Piquier();
+		Piquier test3 = new Piquier();
 		Player p = new Player("fff", null);
 		Chateau testC = new Chateau(p);
+		testC.addToFile(test2);
+		testC.addToFile(test3);
+		testC.addToFile(test);
 		
 		
 		
@@ -28,12 +33,22 @@ public class Main extends Application{
 		gameLoop = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				if(cpt == 5) {
+				if(cpt > 5) {
+					testC.updateProd();
+				}
+				if(cpt == 200) {
 					gameLoop.stop();
 				}
+				if(cpt == 15) {
+					testC.upCastle();			
+				}
 				cpt ++;
-				testC.addToTroupe(test);
+				System.out.println(cpt);
+				System.out.println(testC.lvl);
 				System.out.println(testC.getTroupe());
+				if(testC.file.size()>0) {
+					System.out.println(testC.getFirstList());
+				}
 				
 				
 			}
@@ -44,6 +59,10 @@ public class Main extends Application{
 		
 		
 		gameLoop.start();
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
 	}
 
 }

@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import Troupes.Troupes;
 
 public class Chateau extends Royaume{
-	private int lvl=1;
+	public int lvl=1;
 	private Player proprio;
 	private ArrayList<Troupes> troupe;
 	private int prod;
-	private ArrayList<Troupes> file;
+	private int prodTmp;
+	private boolean upgrade;
+	public ArrayList<Troupes> file;
 	private int orientation;
 	private int tresor;
 	private int position_x, position_y;
-	
-	
 	
 	
 	public Chateau(Player proprio){
@@ -30,9 +30,9 @@ public class Chateau extends Royaume{
 		return lvl;
 	}
 	
-	/*public Player getPlayer() {
+	public Player getPlayer() {
 		return proprio;
-	}*/
+	}
 
 	public Troupes getSomeTroupe(int ind) {
 		return troupe.get(ind);
@@ -102,8 +102,6 @@ public class Chateau extends Royaume{
 	}
 
 	
-	
-	
 	public int getPosition_x() {
 		return position_x;
 	}
@@ -128,7 +126,42 @@ public class Chateau extends Royaume{
 		this.proprio = proprio;
 	}
 	
-	/*public void increaseTresor() {
-		
-	}*/
+	public void increaseTresor() {
+		this.tresor = this.lvl *10;
+	}
+	
+	public void upCastle() {
+		if(!this.upgrade) {
+			this.upgrade = true;
+			this.prodTmp = this.prod;
+			this.prod = 100 + 50*this.lvl;
+		}
+	}
+	
+	public void endProd() {
+		if(this.upgrade) {
+			this.setLvl(this.lvl +1);
+			this.upgrade = false;
+			if((this.file.size())>0) {
+				this.prod = this.prodTmp;
+			}
+		}else {
+			if((this.file.size())>0) {
+				Troupes tmp = this.getFirstList();
+				this.addToTroupe(tmp);
+				this.removeFirstList();
+				this.prod = tmp.getTmpProd();
+			}
+		}
+	}
+	
+	public void updateProd() {
+		if(this.prod <= 0) {
+			this.endProd();
+		}else {
+			this.prod = this.prod -1;
+		}
+	}
+	
+
 }

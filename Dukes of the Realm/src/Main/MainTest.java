@@ -1,5 +1,7 @@
 package Main;
 
+import java.util.ArrayList;
+
 import Struct.*;
 import Troupes.*;
 ;
@@ -29,9 +31,9 @@ public class MainTest {
 		testC.removeFirstList();
 		System.out.println(testC.getList());
 		
-		/*ArrayList<Troupes> array = new ArrayList<Troupes>();
+		ArrayList<Troupes> array = new ArrayList<Troupes>();
 		array.add(test);
-		array.add(test2);*/
+		array.add(test2);
 
 	}
 
