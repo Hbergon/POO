@@ -1,4 +1,5 @@
 package Troupes;
+import Struct.Player;
 
 public abstract class Troupes {
 	private int cout;
@@ -8,6 +9,9 @@ public abstract class Troupes {
 	private int deg;
 	private String name;
 	private int position_x, position_y;
+	private Player seigneur;
+	
+	
 	
 	
 	
@@ -55,7 +59,13 @@ public abstract class Troupes {
 	public void setPosition_y(int position_y) {
 		this.position_y = position_y;
 	}
-	
 
+	public Player getPlayer() {
+		return seigneur;
+	}
+
+	public void setPlayer(Player seigneur) {
+		this.seigneur = seigneur;
+	}
 	
 }

@@ -42,16 +42,6 @@ public class Chateau extends Royaume{
 		return troupe;
 	}
 	
-	public void removeFirstTroupe() {
-		troupe.remove(0);
-		return ;
-	}
-	
-	public void addToTroupe(Troupes tr) {
-		troupe.add(tr);
-		return;
-	}
-	
 	public ArrayList<Troupes> getList() {
 		return file;
 	}
@@ -59,12 +49,6 @@ public class Chateau extends Royaume{
 	public Troupes getFirstList() {
 		 return file.get(0);
 	}
-	
-	public void removeFirstList() {
-		file.remove(0);
-		return ;
-	}
-	
 	
 	public int getProd() {
 		return prod;
@@ -77,11 +61,6 @@ public class Chateau extends Royaume{
 	
 	public void setProd(int cout) {
 		prod=cout;
-		return;
-	}
-	
-	public void addToFile(Troupes tr) {
-		file.add(tr);
 		return;
 	}
 
@@ -101,7 +80,6 @@ public class Chateau extends Royaume{
 		this.tresor = tresor;
 	}
 
-	
 	public int getPosition_x() {
 		return position_x;
 	}
@@ -134,7 +112,7 @@ public class Chateau extends Royaume{
 	public void addProd(Troupes tr) {
 		if(this.tresor >= tr.getCout()) {
 			this.tresor = this.tresor - tr.getCout();
-			this.addToFile(tr);
+			this.file.add(tr);
 		}
 	}
 	
@@ -157,8 +135,9 @@ public class Chateau extends Royaume{
 		}else {
 			if((this.file.size())>0) {
 				Troupes tmp = this.getFirstList();
-				this.addToTroupe(tmp);
-				this.removeFirstList();
+				tmp.setPlayer(this.proprio);
+				this.troupe.add(tmp);
+				this.file.remove(0);
 				this.prod = tmp.getTmpProd();
 			}
 		}
@@ -185,5 +164,28 @@ public class Chateau extends Royaume{
 		}
 	}
 	
+	public void TroupeInteraction(Troupes tr) {
+		if(tr.getPlayer() != this.proprio) {
+			this.attaque(tr);
+		}else{
+			this.troupe.add(tr);
+		}
+	}
+	
+	public void attaque(Troupes tr) {
+		if(this.troupe.size()==0) {
+			this.proprio = tr.getPlayer();
+			while(this.file.size() != 0) {
+				this.file.remove(0);
+			}
+			this.troupe.add(tr);
+		}else {
+			int tmp = this.getSomeTroupe(0).getPdv();
+			this.troupe.get(0).setPdv(tmp - tr.getDeg());
+			if(tmp <= tr.getDeg()) {
+				this.troupe.remove(0);
+			}
+		}
+	}
 
 }
