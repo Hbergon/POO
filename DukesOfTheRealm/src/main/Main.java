@@ -5,7 +5,11 @@
  */
 package Main;
 
-//import java.util.Random;
+import Struct.Chateau;
+import Troupes.Troupes;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import javafx.application.Application;
 
 import javafx.scene.Group;
@@ -20,17 +24,24 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
-    //private Random rnd = new Random();
+    private Random rnd = new Random();
     final static int WIDTH= 800;
     final static int HEIGHT= 600;
-    final static int NB_CASTLE=5;
+    final static int NB_CASTLE=2;
     
           
           
   final static Image BACKGROUND = new Image(Main.class.getResource("background.jpg").toString());
   
   final static  Image CASTLE = new Image(Main.class.getResource("castle.png").toString());
-   
+  
+  final static  Image TROUPE = new Image(Main.class.getResource("troupe.png").toString());
+  
+ //private List<Chateau> castles = new ArrayList<>();
+ 
+final Group troupes= new Group();
+
+
     @Override
     public void start(Stage primaryStage) {
         final ImageView background = new ImageView(BACKGROUND);
@@ -45,7 +56,7 @@ public class Main extends Application {
             
             
             
-        final Group root= new Group(background,castle_r);
+        final Group root= new Group(background,castle_r, troupes);
         Scene scene = new Scene(root, WIDTH, HEIGHT);
    
         primaryStage.setTitle("Dukes of the Realm!");
@@ -54,15 +65,23 @@ public class Main extends Application {
     }
     
     ImageView[] Showcastles(){
-        ImageView[] castle= new ImageView[5];
-       for (int i= 0; i<5; i=i+1) {
+        ImageView[] castle= new ImageView[NB_CASTLE];
+       for (int i= 0; i<NB_CASTLE; i=i+1) {
              castle[i]= new ImageView(CASTLE);
-             castle[i].setTranslateX(140*i);
+             castle[i].setTranslateX(600*i);
              castle[i].setTranslateY(200);
         }
-        
         return castle;
         
+    }
+    
+    private void attack_from_to(Chateau chateau_from, Chateau chateau_to ){
+        
+        for (Troupes t: chateau_from.getTroupe()){
+            ImageView troupe= new ImageView(TROUPE);
+            troupes.getChildren().add(troupe);
+        }
+               
     }
 
 
