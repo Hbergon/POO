@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="DukesOfTheRealm.jnlp">
+  <information>
+    <title>DukesOfTheRealm</title>
+    <vendor>bourh</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="DukesOfTheRealm.jar" size="83032" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="800" height="600" main-class="Main.Main"  name="DukesOfTheRealm" />
+  <update check="always"/>
+</jnlp>

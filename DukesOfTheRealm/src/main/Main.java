@@ -10,6 +10,7 @@ import Troupes.Troupes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 
 import javafx.scene.Group;
@@ -37,12 +38,16 @@ public class Main extends Application {
   
   final static  Image TROUPE = new Image(Main.class.getResource("troupe.png").toString());
   
+  AnimationTimer gameLoop;
+  
  //private List<Chateau> castles = new ArrayList<>();
  
 final Group troupes= new Group();
+ ImageView[] troupe= new ImageView[2];
+int l=0;
 
 
-    @Override
+
     public void start(Stage primaryStage) {
         final ImageView background = new ImageView(BACKGROUND);
         final ImageView castle[]= Showcastles();
@@ -62,7 +67,23 @@ final Group troupes= new Group();
         primaryStage.setTitle("Dukes of the Realm!");
         primaryStage.setScene(scene);
         primaryStage.show();
+        
+        attack_from_to();
+         
+		gameLoop = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+                                                           l=(l+1)%WIDTH;
+                                                           final int a=l;
+                                                           troupe[0].setX(a);
+                                                           
+			}
+
+		};
+               
+                gameLoop.start();
     }
+    
     
     ImageView[] Showcastles(){
         ImageView[] castle= new ImageView[NB_CASTLE];
@@ -75,14 +96,22 @@ final Group troupes= new Group();
         
     }
     
-    private void attack_from_to(Chateau chateau_from, Chateau chateau_to ){
-        
-        for (Troupes t: chateau_from.getTroupe()){
-            ImageView troupe= new ImageView(TROUPE);
-            troupes.getChildren().add(troupe);
+    private void attack_from_to(/*Chateau chateau_from, Chateau chateau_to*/ ){
+       
+        //for (Troupes t: chateau_from.getTroupe()){
+        for(int i=0; i<2; i=i+1){
+            troupe[i]= new ImageView(TROUPE);
+            troupe[i].setTranslateX(600*i);
+            troupe[i].setTranslateY(400);
+            troupes.getChildren().add(troupe[i]);
+
         }
+        
+        
                
     }
+    
+
 
 
     public static void main(String[] args) {
