@@ -11,6 +11,7 @@ public abstract class Troupes {
 	private int deg;
 	private String name;
 	private int position_x, position_y;
+	private int aimX, aimY;
 	private Player seigneur;
 	
 	
@@ -66,6 +67,19 @@ public abstract class Troupes {
 
 	public void setPlayer(Player seigneur) {
 		this.seigneur = seigneur;
+	}
+
+	public int getAimX() {
+		return aimX;
+	}
+	
+	public int getAimY() {
+		return aimY;
+	}
+
+	public void setAim(int x, int y) {
+		this.aimX = x;
+		this.aimY = y;
 	}
 	
 

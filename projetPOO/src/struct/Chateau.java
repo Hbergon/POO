@@ -7,23 +7,25 @@ import troupes.Troupes;
 public class Chateau extends Royaume{
 	private int lvl=1;
 	private Player proprio;
-	private ArrayList<Troupes> troupe;
+	public ArrayList<Troupes> troupe;
 	private int prod;
 	private int prodTmp;
 	private boolean upgrade;
-	public ArrayList<Troupes> file;
+	private ArrayList<Troupes> file;
 	private int orientation;
 	private int tresor;
 	private int position_x, position_y;
 	
 	
-	public Chateau(Player proprio){
+	public Chateau(Player proprio, int x, int y){
 		lvl=1;
 		this.setProprio(proprio);
 		troupe = new ArrayList<Troupes>();
 		prod = 0;
 		file = new ArrayList<Troupes>();
 		setTresor(0);
+		this.position_x = x;
+		this.position_y = y;
 	}
 	
 	public int getLvl() {
