@@ -59,7 +59,7 @@ public class Main extends Application {
  Player p2 = new Player("p2");
  
  Chateau chateau_1 = new Chateau(p1, 100, 100);
- Chateau chateau_2 = new Chateau(p2, 500, 450);
+ Chateau chateau_2 = new Chateau(p2, 200, 450);
  /**/
  
  
@@ -265,10 +265,9 @@ int l=0;
     	int targetX = t.getAimX();/*voir fonction au dessus*/
     	int targetY = t.getAimY();
     	int spd = t.getSpeed();
+    	Boolean lastX = t.getLastX();
     	
-    	
-    	
-    	if(x == targetX) {
+    	if(lastX || targetX == x) {
     		if(y > targetY) {
     			y = y - spd;
     			if(y < targetY) {
@@ -280,8 +279,8 @@ int l=0;
     				y = targetY;
     			}
     		}
-    		if(y == targetY) {
-    			return true;
+    		if(targetX != x) {
+    			t.setLastX(false);
     		}
     	}else {
     		if(x > targetX) {
@@ -294,6 +293,9 @@ int l=0;
     			if(x > targetX) {
     				x = targetX;
     			}
+    		}
+    		if(targetY != y) {
+    			t.setLastX(true);
     		}
     	}
     	
