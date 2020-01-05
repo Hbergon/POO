@@ -33,8 +33,8 @@ public class Main extends Application {
     final static int WIDTH= 800;
     final static int HEIGHT= 600;
     final static int NB_CASTLE=2;
-    final static int castleHeight = 50;/*mettre ici les tailles des images/hitbox des chateaux*/
-    final static int castleWidth = 50;
+    final static int CastleHeight = 50;/*mettre ici les tailles des images/hitbox des chateaux*/
+    final static int CastleWidth = 50;
     
           
           
@@ -126,21 +126,21 @@ int l=0;
         
         
  
-                              
+                  
 		gameLoop = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
 				
 				
 				
-				cptTour ++; /*numéro du tour*/
+				cptTour ++; /*numï¿½ro du tour*/
 				System.out.println("tour : " + cptTour); /*pour voir quel tour on est */
 
                                                                       
 				updateCastles();
 				updateTroupes();
-				
-				/*scénario de test*/
+				destroy_troupes();
+				/*scï¿½nario de test*/
 				
 				
 				System.out.println(" proprio : " + chateau_2.getPlayer());
@@ -162,6 +162,7 @@ int l=0;
 					order(chateau_1, chateau_2);
 					
 				}
+                                                                            destroy_troupes();
 				
 				/**/
 			
@@ -200,18 +201,18 @@ int l=0;
     	switch(c.getOrientation()) {
     	case 0:
     		t.setPosition_x(c.getPosition_x());
-        	t.setPosition_y(c.getPosition_y() - (castleHeight)/2);
+        	t.setPosition_y(c.getPosition_y() - (CastleHeight)/2);
     		break;
     	case 1:
-    		t.setPosition_x(c.getPosition_x() + (castleWidth)/2);
+    		t.setPosition_x(c.getPosition_x() + (CastleWidth)/2);
         	t.setPosition_y(c.getPosition_y());
     		break;
     	case 2:
     		t.setPosition_x(c.getPosition_x());
-        	t.setPosition_y(c.getPosition_y() + (castleHeight)/2);
+        	t.setPosition_y(c.getPosition_y() + (CastleHeight)/2);
     		break;
     	case 3:
-    		t.setPosition_x(c.getPosition_x() - (castleWidth)/2);
+    		t.setPosition_x(c.getPosition_x() - (CastleWidth)/2);
         	t.setPosition_y(c.getPosition_y());
     		break;
     	}
@@ -227,7 +228,7 @@ int l=0;
     	int y = destination.getPosition_y();
     	Troupes tmp;
     	
-    	while(origine.getTroupe().size() != 0) {
+    	while(!origine.getTroupe().isEmpty()) {
 
     		tmp = origine.getSomeTroupe(0);
     		
@@ -235,7 +236,7 @@ int l=0;
         	leaveCastle(tmp, origine);
         	origine.removeTroupeFirst();
         	outdoorTroupes.add(tmp);
-        	show_troupes();
+        	//show_troupes();
     	}
     	
     }
@@ -249,15 +250,34 @@ int l=0;
         for(int i=0; i<size; i=i+1){
             troupe[i]= new ImageView(TROUPE);
             
-              troupe[i].setTranslateX(outdoorTroupes.get(i).getPosition_x());;
+              troupe[i].setTranslateX(outdoorTroupes.get(i).getPosition_x());
                 troupe[i].setTranslateY(outdoorTroupes.get(i).getPosition_y());
             troupes.getChildren().add(troupe[i]);
 
         }
     }
      
-    
+     void move_troupes(){
+         int size = outdoorTroupes.size();
+        
+        for(int i=0; i<size; i=i+1){
+              troupes.getChildren().get(i).setTranslateX(outdoorTroupes.get(i).getPosition_x());
+              troupes.getChildren().get(i).setTranslateY(outdoorTroupes.get(i).getPosition_y());    
+              }
+              
+        }
 
+     
+     void destroy_troupes(){
+         int size = outdoorTroupes.size();
+        for(int i=0; i<size; i=i+1){
+              if (outdoorTroupes.get(i).getPdv()==0){
+                  troupes.getChildren().remove(i);
+              }
+        }
+     }
+     
+     
     /*calcul les prochaine spos d une troupe*/
     private Boolean newPos(Troupes t, int ind) {
     	/*version simple*/
@@ -303,8 +323,9 @@ int l=0;
     	if(x == t.getAimX() && t.getAimY() == y) {
     		t.getCible().TroupeInteraction(t);
     		outdoorTroupes.remove(ind);
-    		show_troupes();
+    		//move_troupes();
     		/*ici suppr l'affichage de cette troupes*/
+                                    
     		
     		
     		
