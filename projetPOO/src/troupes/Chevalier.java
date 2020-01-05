@@ -36,4 +36,9 @@ public class Chevalier extends Troupes {
 		pdv=vie;
 		return;
 	}
+	
+	public Troupes copy() {
+		return new Chevalier();
+	}
+	
 }

@@ -6,7 +6,7 @@ public class Piquier extends Troupes {
 	int speed =2;
 	int pdv =1;
 	int deg =1;
-	String name;
+	String name = "Piquier";
 	
 	public int getCout() {
 		return cout;
@@ -35,5 +35,9 @@ public class Piquier extends Troupes {
 	public void setPdv(int vie) {
 		pdv=vie;
 		return;
+	}
+	
+	public Troupes copy() {
+		return new Piquier();
 	}
 }

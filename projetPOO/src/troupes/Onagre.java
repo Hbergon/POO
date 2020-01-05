@@ -36,4 +36,8 @@ public class Onagre extends Troupes {
 		pdv=vie;
 		return;
 	}
+	
+	public Troupes copy() {
+		return new Onagre();
+	}
 }

@@ -1,4 +1,5 @@
 package troupes;
+import struct.*;
 import struct.Player;
 
 
@@ -12,7 +13,9 @@ public abstract class Troupes {
 	private String name;
 	private int position_x, position_y;
 	private int aimX, aimY;
+	private Chateau cible;
 	private Player seigneur;
+	private Boolean lastX = false;
 	
 	
 	
@@ -77,11 +80,30 @@ public abstract class Troupes {
 		return aimY;
 	}
 
-	public void setAim(int x, int y) {
-		this.aimX = x;
-		this.aimY = y;
+	public void setAim() {
+		this.aimX = cible.getPosition_x();
+		this.aimY = cible.getPosition_y();
 	}
 	
+	public Boolean getLastX() {
+		return lastX;
+	}
 
+	public void setLastX(Boolean lastX) {
+		this.lastX = lastX;
+	}
+	
+	public Troupes copy() {
+		return this;
+	}
+
+	public Chateau getCible() {
+		return cible;
+	}
+
+	public void setCible(Chateau cible) {
+		this.cible = cible;
+		this.setAim();
+	}
 	
 }

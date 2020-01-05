@@ -44,6 +44,11 @@ public class Chateau extends Royaume{
 		return troupe;
 	}
 	
+	public void removeTroupeFirst() {
+		troupe.remove(0);
+		return;
+	}
+	
 	public ArrayList<Troupes> getList() {
 		return file;
 	}
@@ -172,7 +177,7 @@ public class Chateau extends Royaume{
 		if(tr.getPlayer() != this.proprio) {
 			this.attaque(tr);
 		}else{
-			this.troupe.add(tr);
+			this.troupe.add(tr.copy());
 		}
 	}
 

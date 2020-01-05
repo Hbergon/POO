@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Player {
 	private String name;
-	private int ID;
 	private ArrayList<Chateau> tab= new ArrayList<Chateau>();
 	
 	public Player(String name/*, ArrayList<Chateau> tab*/){
