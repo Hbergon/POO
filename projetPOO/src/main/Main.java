@@ -67,11 +67,9 @@ public class Main extends Application {
  
  
 
-final Group troupes= new Group();
-
-ArrayList<ImageView> ImgTroupe = new ArrayList<>();
-int l=0;
-
+Group troupes= new Group();
+Group root;
+Scene scene;
 
 
     @Override
@@ -81,11 +79,11 @@ int l=0;
     	castles.add(chateau_1);
     	castles.add(chateau_2);
     	/**/
-    	
+        
         final ImageView background = new ImageView(BACKGROUND);
         final ImageView castle[]= Showcastles();
         final Group castle_r = new Group(castle);
-        
+
             castle_r.setEffect(new DropShadow());
             
             background.setEffect(new BoxBlur());         
@@ -116,8 +114,8 @@ int l=0;
             
             
             
-        final Group root= new Group(background,castle_r, troupes);
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+         root= new Group(background,castle_r, troupes);
+        scene = new Scene(root, WIDTH, HEIGHT);
    
         primaryStage.setTitle("Dukes of the Realm!");
         primaryStage.setScene(scene);
@@ -139,7 +137,7 @@ int l=0;
                                                                       
 				updateCastles();
 				updateTroupes();
-				destroy_troupes();
+                                                            
 				/*sc�nario de test*/
 				
 				
@@ -162,7 +160,6 @@ int l=0;
 					order(chateau_1, chateau_2);
 					
 				}
-                                                                            destroy_troupes();
 				
 				/**/
 			
@@ -177,6 +174,8 @@ int l=0;
     
     ImageView[] Showcastles(){
         ImageView[] castle= new ImageView[NB_CASTLE];
+        
+        
         int x;
         int y;
         Chateau tmp;
@@ -236,7 +235,7 @@ int l=0;
         	leaveCastle(tmp, origine);
         	origine.removeTroupeFirst();
         	outdoorTroupes.add(tmp);
-        	//show_troupes();
+        	show_troupe(outdoorTroupes.size()-1);
     	}
     	
     }
@@ -244,38 +243,24 @@ int l=0;
     
     
     
-     void show_troupes(){
-        int size = outdoorTroupes.size();
-        ImageView[] troupe= new ImageView[size];
-        for(int i=0; i<size; i=i+1){
-            troupe[i]= new ImageView(TROUPE);
+     void show_troupe(int i){
+            ImageView troupe= new ImageView(TROUPE);
             
-              troupe[i].setTranslateX(outdoorTroupes.get(i).getPosition_x());
-                troupe[i].setTranslateY(outdoorTroupes.get(i).getPosition_y());
-            troupes.getChildren().add(troupe[i]);
+              troupe.setTranslateX(outdoorTroupes.get(i).getPosition_x());
+                troupe.setTranslateY(outdoorTroupes.get(i).getPosition_y());
+            troupes.getChildren().add(troupe);
 
-        }
     }
-     
-     void move_troupes(){
-         int size = outdoorTroupes.size();
-        
-        for(int i=0; i<size; i=i+1){
-              troupes.getChildren().get(i).setTranslateX(outdoorTroupes.get(i).getPosition_x());
-              troupes.getChildren().get(i).setTranslateY(outdoorTroupes.get(i).getPosition_y());    
-              }
-              
-        }
 
      
-     void destroy_troupes(){
+     void destroy_troupes(int index){
          int size = outdoorTroupes.size();
-        for(int i=0; i<size; i=i+1){
-              if (outdoorTroupes.get(i).getPdv()==0){
-                  troupes.getChildren().remove(i);
-              }
-        }
+         if(size==0){
+             return;
+         }
+         troupes.getChildren().remove(index);
      }
+     
      
      
     /*calcul les prochaine spos d une troupe*/
@@ -299,6 +284,7 @@ int l=0;
     			if(y > targetY) {
     				y = targetY;
     			}
+                        
     		}
     		if(targetX != x) {
     			t.setLastX(false);
@@ -323,7 +309,7 @@ int l=0;
     	if(x == t.getAimX() && t.getAimY() == y) {
     		t.getCible().TroupeInteraction(t);
     		outdoorTroupes.remove(ind);
-    		//move_troupes();
+                                    destroy_troupes(outdoorTroupes.size()-1);
     		/*ici suppr l'affichage de cette troupes*/
                                     
     		
@@ -337,7 +323,7 @@ int l=0;
     	t.setPosition_x(x);
     	t.setPosition_y(y);
     	troupes.getChildren().get(ind).setTranslateX(outdoorTroupes.get(ind).getPosition_x());
-        troupes.getChildren().get(ind).setTranslateY(outdoorTroupes.get(ind).getPosition_y());
+                   troupes.getChildren().get(ind).setTranslateY(outdoorTroupes.get(ind).getPosition_y());
     	return false;
     	
     }
