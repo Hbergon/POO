@@ -13,7 +13,6 @@ public abstract class Troupes {
 	private int position_x, position_y;
 	private int aimX, aimY;
 	private Player seigneur;
-	private Boolean lastX = false;
 	
 	
 	
@@ -81,14 +80,6 @@ public abstract class Troupes {
 	public void setAim(int x, int y) {
 		this.aimX = x;
 		this.aimY = y;
-	}
-	
-	public Boolean getLastX() {
-		return lastX;
-	}
-
-	public void setLastX(Boolean lastX) {
-		this.lastX = lastX;
 	}
 	
 
