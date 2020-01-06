@@ -13,16 +13,18 @@ import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 import javafx.stage.Stage;
@@ -117,26 +119,44 @@ Group castle_r;
             background.setOpacity(0.5);
             
             
-            //Pas ok encore
-            castle_r.setOnMouseClicked((MouseEvent e) -> {
+            castle_r.getChildren().get(0).setOnMouseClicked(e -> {
                 Label secondLabel = new Label("Do you want to attack this castle?");
-                
-                StackPane secondaryLayout = new StackPane();
-                secondaryLayout.getChildren().add(secondLabel);
-                
-                Scene secondScene = new Scene(secondaryLayout, 230, 100);
-                
-                // New window (Stage)
-                Stage newWindow = new Stage();
-                newWindow.setTitle("Attack");
-                newWindow.setScene(secondScene);
-                
-                // Set position of second window, related to primary window.
-                newWindow.setX(primaryStage.getX() + 200);
-                newWindow.setY(primaryStage.getY() + 100);
-                
-                newWindow.show();
-            });
+						
+	StackPane secondaryLayout = new StackPane();
+	secondaryLayout.getChildren().add(secondLabel);
+	Button button1 = new Button ("Yes");
+	Button button2 = new Button("No");
+	secondaryLayout.getChildren().add(button1);
+	secondaryLayout.getChildren().add(button2);
+	Scene secondScene = new Scene(secondaryLayout, 230, 100);
+	// New window (Stage)
+	Stage newWindow = new Stage();
+	newWindow.setTitle("Attack");
+	newWindow.setScene(secondScene);
+						
+	// Set position of second window, related to primary window.
+	newWindow.setX(primaryStage.getX() + 200);
+	newWindow.setY(primaryStage.getY() + 100);
+	button2.setTranslateX(30);
+						
+	button1.setOnAction(new EventHandler<ActionEvent>() {
+	
+                @Override
+                public void handle(ActionEvent event) {
+                    newWindow.close();
+	}});
+		
+						
+	button2.setOnAction(new EventHandler<ActionEvent>() {
+	@Override
+	public void handle(ActionEvent event) {
+                        newWindow.close();
+	}
+						
+	});
+						
+	newWindow.show();
+	});
                 
             
             
