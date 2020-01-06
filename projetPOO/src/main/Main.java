@@ -119,7 +119,7 @@ Group castle_r;
             background.setOpacity(0.5);
             
             
-            castle_r.getChildren().get(0).setOnMouseClicked(e -> {
+            castle_r.setOnMouseClicked(e -> {
                 Label secondLabel = new Label("Do you want to attack this castle?");
 						
 	StackPane secondaryLayout = new StackPane();
