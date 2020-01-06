@@ -1,14 +1,11 @@
 package troupes;
 
-/**Classe fille de Troupes
- * @see Troupes*/
 public class Piquier extends Troupes {
 	int cout = 100;
 	int tmpProd =5;
 	int speed =2;
 	int pdv =1;
 	int deg =1;
-	String name = "Piquier";
 	
 	public int getCout() {
 		return cout;
@@ -28,10 +25,6 @@ public class Piquier extends Troupes {
 	
 	public int getDeg() {
 		return deg;
-	}
-	
-	public String getName() {
-		return name;
 	}
 
 	public void setPdv(int vie) {

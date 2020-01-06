@@ -3,8 +3,6 @@ package troupes;
 import struct.Chateau;
 import struct.Player;
 
-/**Classe fille de Troupes
- * @see Troupes*/
 public class Convoyeur extends Troupes{
 	int cout = 1000;
 	int tmpProd = 50;
@@ -16,7 +14,6 @@ public class Convoyeur extends Troupes{
 	Chateau cible;
 	Player seigneur;
 	Boolean lastX = false;
-	/**valeur du trésor transporté*/
 	int tresor;
 	
 	public int getCout() {
@@ -44,8 +41,6 @@ public class Convoyeur extends Troupes{
 		return;
 	}
 	
-	/**Constructeur du convoyeur
-	 * @param tresor : trésor à transporter*/
 	public Convoyeur(int tresor) {
 		this.tresor = tresor;
 	}
@@ -54,8 +49,6 @@ public class Convoyeur extends Troupes{
 		return new Convoyeur(this.tresor);
 	}
 	
-	/**permet de récupérer la valeur du trésor tansporté
-	 * @return : valeur du trésor*/
 	public int getTresor() {
 		return tresor;
 	}
