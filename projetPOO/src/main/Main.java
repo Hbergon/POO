@@ -30,8 +30,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private final Random rnd = new Random();
-    final static int WIDTH= 1000;
-    final static int HEIGHT= 1000;
+    final static int WIDTH= 800;
+    final static int HEIGHT= 800;
     static int NB_CASTLE;
     static int castleHeight;
     static int castleWidth;
@@ -424,6 +424,7 @@ Group castle_r;
 		Boolean notValidPos = true;
 	   	 
 	   	while(notValidPos) {
+	   		
 	   		randYSecond = (int) (rnd.nextFloat()*HEIGHT-castleHeight);
 	   		randXSecond = (int) (rnd.nextFloat()*HEIGHT-castleWidth);
 	   		
@@ -434,7 +435,8 @@ Group castle_r;
 	   			randXSecond = randXSecond + castleWidth;
 			}
 	   			
-	   		notValidPos = isInArea(randYSecond, randXSecond, ind);
+	   		notValidPos = isInArea(randXSecond, randYSecond, ind);
+	   		System.out.println("ind : " + ind + "  "+ randXSecond + " ff "+randYSecond );
 	   	}
 	    CastleX[ind] = randXSecond;
 	    CastleY[ind] = randYSecond;
@@ -442,20 +444,32 @@ Group castle_r;
 	
 	private Boolean isInArea(int x, int y, int ind) {
 		int centerX = x + castleHeight/2;
-		int centerY = x + castleWidth/2;
+		int centerY = y + castleWidth/2;
+		
+		int centerXOther;
+		int centerYOther;
 		
 		for(int i =0; i < ind; i++) {
-			if(centerX > CastleX[i] && centerX - CastleX[i] < castleHeight*3) {
-				return true;
+			System.out.println("ind : " +i );
+			
+			centerXOther = CastleX[i]+ castleHeight/2;
+			centerYOther = CastleY[i] + castleWidth/2;
+			
+			if(centerX > centerXOther  && centerX - centerXOther < castleHeight*2) {
+				if(centerY > centerYOther && centerY - centerYOther < castleWidth*2) {
+					return true;
+				}
+				if(centerY < centerYOther && centerYOther - centerY < castleWidth*2) {
+					return true;
+				}
 			}
-			if(centerX < CastleX[i] && CastleX[i] - centerX < castleHeight*3) {
-				return true;
-			}
-			if(centerY > CastleX[i] && centerY - CastleX[i] < castleWidth*3) {
-				return true;
-			}
-			if(centerY < CastleY[i] && CastleY[i] - centerY < castleWidth*3) {
-				return true;
+			if(centerX < centerXOther && centerXOther - centerX < castleHeight*2) {
+				if(centerY > centerYOther && centerY - centerYOther < castleWidth*2) {
+					return true;
+				}
+				if(centerY < centerYOther && centerYOther - centerY < castleWidth*2) {
+					return true;
+				}
 			}
 		}
 		return false;
