@@ -38,6 +38,7 @@ public abstract class Troupes {
 	/**Dégats que l'unit" est capable d'infliger
 	 * @see Chateau#attaque(troupes.Troupes)*/
 	private int deg;
+<<<<<<< HEAD
 	/**Position actuelle sur l'axe des abscisse de l'unité 
 	 * @see Main#newPos(Troupes, int)*/
 	private int position_x;
@@ -53,6 +54,11 @@ public abstract class Troupes {
 	/** Chateau qui est la cible de cette unité
 	 * @see Troupes#cible
 	 * @see Main#orderAux(Chateau, Chateau, Troupes, int)*/
+=======
+	private String name;
+	private int position_x, position_y;
+	private int aimX, aimY;
+>>>>>>> parent of 0451fed... ffqsefsf
 	private Chateau cible;
 	/**Joueur qui possède cette Troupe
 	 * @see Player*/
@@ -98,9 +104,16 @@ public abstract class Troupes {
 		return deg;
 	}
 	
+<<<<<<< HEAD
 	/**Permet de modifier les points de vie de l'unité
 	 * @param vie : la nouvelle quantitié de pdv
 	 * @see Troupes#pdv*/
+=======
+	public String getName() {
+		return name;
+	}
+
+>>>>>>> parent of 0451fed... ffqsefsf
 	public void setPdv(int vie) {
 		pdv=vie;
 		return;

@@ -8,10 +8,9 @@ package main;
 import struct.Chateau;
 import struct.Player;
 import troupes.*;
+import troupes.Troupes;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -37,12 +36,17 @@ public class Main extends Application {
 	 * @see Main#initNeutralCastles(Player)
 	 * @see Main#castleInit()*/
     private final Random rnd = new Random();
+<<<<<<< HEAD
     /**Largeur de la fenêtre*/
     final static int WIDTH= 800;
     /**Hauteur de la fenêtre*/
     final static int HEIGHT= 800;
     /**Nbombre de chateaux
      * @see Chateau*/
+=======
+    final static int WIDTH= 1000;
+    final static int HEIGHT= 1000;
+>>>>>>> parent of 0451fed... ffqsefsf
     static int NB_CASTLE;
     /**longueur d'un Chateau
      * @see Chateau*/
@@ -87,6 +91,7 @@ public class Main extends Application {
   
   AnimationTimer gameLoop;
   
+<<<<<<< HEAD
 /**ArrayList de tout les chateaux existants
  * @see Chateau
  * @see ArrayList*/
@@ -103,6 +108,15 @@ public class Main extends Application {
  * @see Chateau
  * @see Player#color
  * @see Main#initNeutralCastles(Player)*/
+=======
+
+  ArrayList<Chateau> castles = new ArrayList<>();/*tout les chateau*/
+  ArrayList<Troupes> outdoorTroupes = new ArrayList<>();
+
+ 
+
+  int cptTour = 0;
+>>>>>>> parent of 0451fed... ffqsefsf
   int[] CastleX = new int[MAX_NEUTRAL_CASTLE];
   int[] CastleY = new int[MAX_NEUTRAL_CASTLE];
   
@@ -140,8 +154,13 @@ Group castle_r;
     	castles.add(chateau_1);
     	castles.add(chateau_2);
     	
+    	Chateau[] chateauNeutres = new Chateau[NB_CASTLE-2];
     	
-    	initNeutralCastles(Neutre);
+    	for(int i = 0; i<NB_CASTLE-2; i++) {
+    		chateauNeutres[i] = new Chateau(Neutre, CastleX[i+2], CastleY[i+2]);
+    		castles.add(chateauNeutres[i]);
+    	}
+    	
     	
     	
     	
@@ -184,12 +203,15 @@ Group castle_r;
 	
                 @Override
                 public void handle(ActionEvent event) {
+<<<<<<< HEAD
                 	int[] armee = new int[4];
                 	/*a changer*/
                 	armee[0] = 3;
                 	
                 	
                 	//order(chateau_1, chateau_2, armee);
+=======
+>>>>>>> parent of 0451fed... ffqsefsf
                     newWindow.close();
 	}});
 		
@@ -223,12 +245,46 @@ Group castle_r;
 			/**Boucle pricipale du jeu, gérant les tours*/
 			@Override
 			public void handle(long now) {
-	                                           
+				
+				
+				
+				cptTour ++; /*numï¿½ro du tour*/
+//				System.out.println("tour : " + cptTour); /*pour voir quel tour on est */
+
+                                                                      
 				updateCastles();
 				updateTroupes();
+<<<<<<< HEAD
                                                             		
+=======
+                                                            
+				/*scï¿½nario de test*/
 				
-                    
+				
+//				System.out.println(" proprio : " + chateau_2.getPlayer());
+				
+				if(chateau_1.getTresor() > 100) {
+//					System.out.println("==========================");
+					chateau_1.addProd(new Piquier());
+				}
+>>>>>>> parent of 0451fed... ffqsefsf
+				
+				if(chateau_2.getList().size() < 2 && cptTour  < 50) {
+					chateau_2.addProd(new Piquier());
+				}
+				
+				
+				
+				
+				if(chateau_1.troupe.size() >= 1 && cptTour < 100 && cptTour > 50) {
+//					System.out.println(" ////////// " + chateau_1.troupe.get(0));
+					order(chateau_1, chateau_2);
+					
+				}
+				
+				/**/
+			
+                                                           
 			}
 
 		};
@@ -269,12 +325,19 @@ Group castle_r;
         
     }
     
+<<<<<<< HEAD
     /**Donne la première position à une troupe sortie en fonction de l'orientation du chateau
      * @param t : troupe sortie
      * @param c : chateau d'où provient la troupe
      * @see Chateau#oreintation
      * @see Chateau#file
      * @see Main#order(Chateau, Chateau, int[])*/
+=======
+    
+    /*mettre version javafx*/
+    /*sert a savoir la pos ou sort la troupe en prenant en compte l'orientation*/
+    
+>>>>>>> parent of 0451fed... ffqsefsf
     private void leaveCastle(Troupes t, Chateau c) {
     	switch(c.getOrientation()) {
     	case 0:
@@ -296,6 +359,7 @@ Group castle_r;
     	}
     }
     
+<<<<<<< HEAD
     /**Ordonne à certaines unités d'un chateau de sortir et de se déplcacer
      * @param origine : chateau d'origine
      * @param destination : chateau d'arrivée
@@ -306,11 +370,19 @@ Group castle_r;
      * @see Chateau#TroupeInteraction(Troupes)
      * @see Main#orderAux(Chateau, Chateau, Troupes, int)*/
     private void order(Chateau origine, Chateau destination, int[] tailleArmee){
+=======
+    
+    
+    /*mettre version java fx*/
+    /*fait sortir les troupes et leurs donnent une cible*/
+    private void order(Chateau origine, Chateau destination){
+>>>>>>> parent of 0451fed... ffqsefsf
     	
     	int x = destination.getPosition_x();
     	int y = destination.getPosition_y();
     	Troupes tmp;
     	
+<<<<<<< HEAD
     	int cpt=0;
     	
     	while(cpt < origine.getTroupe().size()) {
@@ -359,6 +431,21 @@ Group castle_r;
         show_troupe(outdoorTroupes.size()-1);
         return;
     }
+=======
+    	while(!origine.getTroupe().isEmpty()) {
+
+    		tmp = origine.getSomeTroupe(0);
+    		
+    		tmp.setCible(destination, castleHeight, castleWidth);
+        	leaveCastle(tmp, origine);
+        	origine.removeTroupeFirst();
+        	outdoorTroupes.add(tmp);
+        	show_troupe(outdoorTroupes.size()-1);
+    	}
+    	
+    }
+    
+>>>>>>> parent of 0451fed... ffqsefsf
     
     /**Affiche une troupe
      * @param i : indice de la troupe dans outdoorTroupes
@@ -446,20 +533,11 @@ Group castle_r;
     	if(x >= (t.getAimX()-(castleWidth)/2) && (t.getAimY()- (castleHeight)/2 )<= y && x <= (t.getAimX() + (castleWidth)/2) && (t.getAimY() +  (castleHeight)/2) >= y) {
     		t.getCible().TroupeInteraction(t);
     		outdoorTroupes.remove(ind);
-            destroy_troupes(ind);
-            
-            int size = castles.size();
-            
-            for(int i = 0; i < size; i++) {
-            	if(castles.get(i) == t.getCible()) {
-            		/*ici mettre actualisation sur castle[i]*/
-            		break;
-            	}
-            }
+            destroy_troupes(outdoorTroupes.size());
     		
     		return true;
     	}
-    	   	
+    	
     	t.setPosition_x(x);
     	t.setPosition_y(y);
     	troupes.getChildren().get(ind).setTranslateX(outdoorTroupes.get(ind).getPosition_x());
@@ -539,7 +617,6 @@ Group castle_r;
 		Boolean notValidPos = true;
 	   	 
 	   	while(notValidPos) {
-	   		
 	   		randYSecond = (int) (rnd.nextFloat()*HEIGHT-castleHeight);
 	   		randXSecond = (int) (rnd.nextFloat()*HEIGHT-castleWidth);
 	   		
@@ -550,8 +627,7 @@ Group castle_r;
 	   			randXSecond = randXSecond + castleWidth;
 			}
 	   			
-	   		notValidPos = isInArea(randXSecond, randYSecond, ind);
-	   		
+	   		notValidPos = isInArea(randYSecond, randXSecond, ind);
 	   	}
 	    CastleX[ind] = randXSecond;
 	    CastleY[ind] = randYSecond;
@@ -564,36 +640,26 @@ Group castle_r;
 	 * @see Main#findValidPos()*/
 	private Boolean isInArea(int x, int y, int ind) {
 		int centerX = x + castleHeight/2;
-		int centerY = y + castleWidth/2;
-		
-		int centerXOther;
-		int centerYOther;
+		int centerY = x + castleWidth/2;
 		
 		for(int i =0; i < ind; i++) {
-			
-			centerXOther = CastleX[i]+ castleHeight/2;
-			centerYOther = CastleY[i] + castleWidth/2;
-			
-			if(centerX > centerXOther  && centerX - centerXOther < castleHeight*2) {
-				if(centerY > centerYOther && centerY - centerYOther < castleWidth*2) {
-					return true;
-				}
-				if(centerY < centerYOther && centerYOther - centerY < castleWidth*2) {
-					return true;
-				}
+			if(centerX > CastleX[i] && centerX - CastleX[i] < castleHeight*3) {
+				return true;
 			}
-			if(centerX < centerXOther && centerXOther - centerX < castleHeight*2) {
-				if(centerY > centerYOther && centerY - centerYOther < castleWidth*2) {
-					return true;
-				}
-				if(centerY < centerYOther && centerYOther - centerY < castleWidth*2) {
-					return true;
-				}
+			if(centerX < CastleX[i] && CastleX[i] - centerX < castleHeight*3) {
+				return true;
+			}
+			if(centerY > CastleX[i] && centerY - CastleX[i] < castleWidth*3) {
+				return true;
+			}
+			if(centerY < CastleY[i] && CastleY[i] - centerY < castleWidth*3) {
+				return true;
 			}
 		}
 		return false;
 	}
     
+<<<<<<< HEAD
 	/**Initialise les chateaux neutres
 	 * @param neutre : joueur qui endossera le role de joueur neutre
 	 * @see Player#color();
@@ -635,6 +701,9 @@ Group castle_r;
 	   	
 	   	 initNeutralCastles(Neutre);
 	}
+=======
+
+>>>>>>> parent of 0451fed... ffqsefsf
 
 
     public static void main(String[] args) {

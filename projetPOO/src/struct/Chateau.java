@@ -2,7 +2,7 @@ package struct;
 
 import java.util.ArrayList;
 
-import troupes.*;
+import troupes.Troupes;
 
 /**Classe fille de Structure, possède une position suivant l'axe des abscisses et des ordonnées
  * @see Struture*/
@@ -31,6 +31,11 @@ public class Chateau extends Structure{
 	private boolean upgrade;
 	/**orientaion du chateau : 0 pour Nord, 1 pour Est, 2 pour Sud, 3 pour Ouest*/
 	private int orientation;
+<<<<<<< HEAD
+=======
+	private int tresor;
+	private int position_x, position_y;
+>>>>>>> parent of 0451fed... ffqsefsf
 	
 	
 	/**Constructeur de chateau
@@ -68,6 +73,7 @@ public class Chateau extends Structure{
 		return troupe.get(ind);
 	}
 	
+<<<<<<< HEAD
 	/**Permet d'ajouter une Toupes à troupe
 	 * @param t : Troupes à a jouter
 	 * @see Troupes
@@ -83,6 +89,8 @@ public class Chateau extends Structure{
 	 * @see Troupes
 	 * @see Chateau#troupe
 	 * @see ArrayList*/
+=======
+>>>>>>> parent of 0451fed... ffqsefsf
 	public ArrayList<Troupes> getTroupe() {
 		return troupe;
 	}
@@ -96,6 +104,7 @@ public class Chateau extends Structure{
 		return;
 	}
 	
+<<<<<<< HEAD
 	/**Permet de supprimé un élément précis de troupe
 	 * @param ind : indice de la position ù se trouve l'élément
 	 * @see Chateau#troupe
@@ -109,6 +118,8 @@ public class Chateau extends Structure{
 	 * return file
 	 * @see Chateau#file
 	 * @see ArrayList*/
+=======
+>>>>>>> parent of 0451fed... ffqsefsf
 	public ArrayList<Troupes> getList() {
 		return file;
 	}
@@ -309,11 +320,7 @@ public class Chateau extends Structure{
 		if(tr.getPlayer() != this.proprio) {
 			this.attaque(tr);
 		}else{
-			if(tr.getClass() == Convoyeur.class) {
-				convoyeurInteraction((Convoyeur) tr);
-			}else {
-				this.troupe.add(tr.copy());
-			}
+			this.troupe.add(tr.copy());
 		}
 	}
 
@@ -339,6 +346,7 @@ public class Chateau extends Structure{
 		}
 	}
 	
+<<<<<<< HEAD
 	/**Gère l'apport d'argent via convoyeur
 	 * @param c : convoyeur reçus
 	 * @see Troupes#convoyeur*/
@@ -346,5 +354,7 @@ public class Chateau extends Structure{
 		this.setTresor(getTresor() + c.getTresor());
 	}
 	
+=======
+>>>>>>> parent of 0451fed... ffqsefsf
 
 }

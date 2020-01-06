@@ -9,6 +9,7 @@ public class Onagre extends Troupes {
 	int speed=1;
 	int pdv=5;
 	int deg=10;
+	String name="Onagre";
 	
 	public int getCout() {
 		return cout;
@@ -28,6 +29,10 @@ public class Onagre extends Troupes {
 	
 	public int getDeg() {
 		return deg;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 	public void setPdv(int vie) {
