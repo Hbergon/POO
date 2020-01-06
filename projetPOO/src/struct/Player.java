@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Player {
 	private String name;
-	private ArrayList<Chateau> tab= new ArrayList<Chateau>();
+	private int color;
 	
-	public Player(String name/*, ArrayList<Chateau> tab*/){
+	public Player(String name, int color){
 		this.name=name;
-		/*this.tab= tab;*/
+		this.color = color;
 	}
 
 	public String getName() {
@@ -19,13 +19,9 @@ public class Player {
 		this.name = name;
 	}
 
-	public ArrayList<Chateau> getTab() {
-		return tab;
+	public int getColor() {
+		return color;
 	}
 
-	public void setTab(ArrayList<Chateau> tab) {
-		this.tab = tab;
-	}
-	
 	
 }

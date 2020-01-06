@@ -26,6 +26,7 @@ public class Chateau extends Royaume{
 		setTresor(0);
 		this.position_x = x;
 		this.position_y = y;
+		this.orientation = 2;
 	}
 	
 	public int getLvl() {

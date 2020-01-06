@@ -30,19 +30,26 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private final Random rnd = new Random();
-    final static int WIDTH= 800;
-    final static int HEIGHT= 600;
-    final static int NB_CASTLE=2;
-    final static int CastleHeight = 50;/*mettre ici les tailles des images/hitbox des chateaux*/
-    final static int CastleWidth = 50;
+    final static int WIDTH= 1000;
+    final static int HEIGHT= 1000;
+    static int NB_CASTLE;
+    static int castleHeight;
+    static int castleWidth;
+    final static int MAX_NEUTRAL_CASTLE = 5;
     
           
           
   final static Image BACKGROUND = new Image(Main.class.getResource("background.jpg").toString());
   
-  final static  Image CASTLE = new Image(Main.class.getResource("castle.png").toString());
+  final static  Image CASTLEB = new Image(Main.class.getResource("castleB.png").toString());
   
-  final static  Image TROUPE = new Image(Main.class.getResource("troupe.png").toString());
+  final static  Image CASTLER = new Image(Main.class.getResource("castleR.png").toString());
+  
+  final static  Image CASTLEG = new Image(Main.class.getResource("castleG.png").toString());
+  
+  final static  Image TROUPEB = new Image(Main.class.getResource("troupeB.png").toString());
+  
+  final static  Image TROUPER = new Image(Main.class.getResource("troupeR.png").toString());
   
   AnimationTimer gameLoop;
   
@@ -51,21 +58,11 @@ public class Main extends Application {
   ArrayList<Troupes> outdoorTroupes = new ArrayList<>();
 
  
-  
-  
-  /*initialsation pour test*/
-  
+
   int cptTour = 0;
+  int[] CastleX = new int[MAX_NEUTRAL_CASTLE];
+  int[] CastleY = new int[MAX_NEUTRAL_CASTLE];
   
- Player p1 = new Player("p1");
- Player p2 = new Player("p2");
- 
- Chateau chateau_1 = new Chateau(p1, 700, 500);
- Chateau chateau_2 = new Chateau(p2, 200, 100);
- /**/
- 
- 
- 
 
 Group troupes= new Group();
 Group root;
@@ -74,11 +71,41 @@ Group castle_r;
 
     @Override
     public void start(Stage primaryStage) {
+    	
+    	castleHeight = (int) CASTLEB.getHeight();
+    	castleWidth = (int) CASTLEB.getWidth();
+    	
         
-    	/*suite initialisation pour test*/
+    	 Player p1 = new Player("p1", 0);
+    	 Player p2 = new Player("p2", 1);
+    	 Player Neutre = new Player("NEUTRE", 2);
+    	 
+    	 NB_CASTLE = 3 + (int) (rnd.nextFloat()*MAX_NEUTRAL_CASTLE-2);
+    	 
+
+    	 validPosInit();
+
+    	 
+    	 Chateau chateau_1 = new Chateau(p1, CastleX[0], CastleY[0]);
+    	 Chateau chateau_2 = new Chateau(p2, CastleX[1], CastleY[1]);
+ 
     	castles.add(chateau_1);
     	castles.add(chateau_2);
-    	/**/
+    	
+    	Chateau[] chateauNeutres = new Chateau[NB_CASTLE-2];
+    	
+    	for(int i = 0; i<NB_CASTLE-2; i++) {
+    		chateauNeutres[i] = new Chateau(Neutre, CastleX[i+2], CastleY[i+2]);
+    		castles.add(chateauNeutres[i]);
+    	}
+    	
+    	
+    	
+    	
+    	castleHeight = (int) CASTLEB.getHeight();
+    	castleWidth = (int) CASTLEB.getWidth();
+
+    	
         
         final ImageView background = new ImageView(BACKGROUND);
         final ImageView castle[]= Showcastles();
@@ -173,15 +200,23 @@ Group castle_r;
     
     
     ImageView[] Showcastles(){
-        ImageView[] castle= new ImageView[NB_CASTLE];
+       ImageView[] castle= new ImageView[NB_CASTLE];
         
         
-        int x;
-        int y;
-        Chateau tmp;
+       int x;
+       int y;
+       Chateau tmp;
        for (int i= 0; i<NB_CASTLE; i=i+1) {
-             castle[i]= new ImageView(CASTLE);
              tmp = castles.get(i);
+             if(tmp.getPlayer().getColor() == 0) {
+      		   castle[i]= new ImageView(CASTLEB);
+      	   	 }else {
+	      	   	if(tmp.getPlayer().getColor() == 2) {
+	       		   castle[i]= new ImageView(CASTLEG);
+	       	   	}else {
+	       	   		castle[i]= new ImageView(CASTLER);
+	       	   	}
+      	   	 }
              x = tmp.getPosition_x();
              y = tmp.getPosition_y();
              
@@ -199,20 +234,20 @@ Group castle_r;
     private void leaveCastle(Troupes t, Chateau c) {
     	switch(c.getOrientation()) {
     	case 0:
-    		t.setPosition_x(c.getPosition_x());
-        	t.setPosition_y(c.getPosition_y() - (CastleHeight)/2);
+    		t.setPosition_x(c.getPosition_x() + (castleWidth)/2);
+        	t.setPosition_y(c.getPosition_y());
     		break;
     	case 1:
-    		t.setPosition_x(c.getPosition_x() + (CastleWidth)/2);
-        	t.setPosition_y(c.getPosition_y());
+    		t.setPosition_x(c.getPosition_x() + castleWidth);
+        	t.setPosition_y(c.getPosition_y() + (castleHeight)/2);
     		break;
     	case 2:
-    		t.setPosition_x(c.getPosition_x());
-        	t.setPosition_y(c.getPosition_y() + (CastleHeight)/2);
+    		t.setPosition_x(c.getPosition_x() + (castleWidth)/2);
+        	t.setPosition_y(c.getPosition_y() + castleHeight);
     		break;
     	case 3:
-    		t.setPosition_x(c.getPosition_x() - (CastleWidth)/2);
-        	t.setPosition_y(c.getPosition_y());
+    		t.setPosition_x(c.getPosition_x());
+        	t.setPosition_y(c.getPosition_y()- (castleHeight)/2);
     		break;
     	}
     }
@@ -231,7 +266,7 @@ Group castle_r;
 
     		tmp = origine.getSomeTroupe(0);
     		
-    		tmp.setCible(destination);
+    		tmp.setCible(destination, castleHeight, castleWidth);
         	leaveCastle(tmp, origine);
         	origine.removeTroupeFirst();
         	outdoorTroupes.add(tmp);
@@ -244,10 +279,17 @@ Group castle_r;
     
     
      void show_troupe(int i){
-            ImageView troupe= new ImageView(TROUPE);
+    	 
+    	 	Troupes tmp = outdoorTroupes.get(i);
+    	 	ImageView troupe;
+    	 	if(tmp.getPlayer().getColor() == 0) {
+    	 		troupe= new ImageView(TROUPEB);
+    	 	}else {
+    	 		troupe= new ImageView(TROUPER);
+    	 	}
             
-              troupe.setTranslateX(outdoorTroupes.get(i).getPosition_x());
-                troupe.setTranslateY(outdoorTroupes.get(i).getPosition_y());
+            troupe.setTranslateX(tmp.getPosition_x());
+            troupe.setTranslateY(tmp.getPosition_y());
             troupes.getChildren().add(troupe);
            
 
@@ -307,16 +349,10 @@ Group castle_r;
     		}
     	}
     	
-    	if(x == t.getAimX() && t.getAimY() == y) {
+    	if(x >= (t.getAimX()-(castleWidth)/2) && (t.getAimY()- (castleHeight)/2 )<= y && x <= (t.getAimX() + (castleWidth)/2) && (t.getAimY() +  (castleHeight)/2) >= y) {
     		t.getCible().TroupeInteraction(t);
     		outdoorTroupes.remove(ind);
-                                    destroy_troupes(outdoorTroupes.size());
-    		/*ici suppr l'affichage de cette troupes*/
-                                    
-    		
-    		
-    		
-    		
+            destroy_troupes(outdoorTroupes.size());
     		
     		return true;
     	}
@@ -324,7 +360,7 @@ Group castle_r;
     	t.setPosition_x(x);
     	t.setPosition_y(y);
     	troupes.getChildren().get(ind).setTranslateX(outdoorTroupes.get(ind).getPosition_x());
-                   troupes.getChildren().get(ind).setTranslateY(outdoorTroupes.get(ind).getPosition_y());
+        troupes.getChildren().get(ind).setTranslateY(outdoorTroupes.get(ind).getPosition_y());
     	return false;
     	
     }
@@ -356,6 +392,74 @@ Group castle_r;
     		castles.get(i).updateProd();
     	}
     }
+    
+    private void validPosInit() {
+    	
+	    int randXFirst = (int) (rnd.nextFloat()*WIDTH - castleWidth);
+	   	int randYFirst = (int) (rnd.nextFloat()*HEIGHT-castleHeight);
+	   
+	   	 
+	   	if(randXFirst < castleWidth) {
+	   		 randXFirst = randXFirst + castleWidth;
+	   	}
+	   	if(randYFirst < castleHeight) {
+	   		 randYFirst = randYFirst + castleHeight;
+	   	}
+	   	
+	    CastleX[0] = randXFirst;
+	    CastleY[0] = randYFirst;
+	   	 
+	   	for(int i = 1; i < NB_CASTLE; i++) {
+	   		findValidPos(i);
+	   		
+	   	}
+	   	
+    }
+	   	
+	private void findValidPos(int ind) {
+		
+		int randXSecond = 0;
+	   	int randYSecond = 0;
+		
+		Boolean notValidPos = true;
+	   	 
+	   	while(notValidPos) {
+	   		randYSecond = (int) (rnd.nextFloat()*HEIGHT-castleHeight);
+	   		randXSecond = (int) (rnd.nextFloat()*HEIGHT-castleWidth);
+	   		
+	   		if(randYSecond < castleHeight) {
+	   			randYSecond = randYSecond + castleHeight;
+			}
+	   		if(randXSecond < castleWidth) {
+	   			randXSecond = randXSecond + castleWidth;
+			}
+	   			
+	   		notValidPos = isInArea(randYSecond, randXSecond, ind);
+	   	}
+	    CastleX[ind] = randXSecond;
+	    CastleY[ind] = randYSecond;
+    }
+	
+	private Boolean isInArea(int x, int y, int ind) {
+		int centerX = x + castleHeight/2;
+		int centerY = x + castleWidth/2;
+		
+		for(int i =0; i < ind; i++) {
+			if(centerX > CastleX[i] && centerX - CastleX[i] < castleHeight*3) {
+				return true;
+			}
+			if(centerX < CastleX[i] && CastleX[i] - centerX < castleHeight*3) {
+				return true;
+			}
+			if(centerY > CastleX[i] && centerY - CastleX[i] < castleWidth*3) {
+				return true;
+			}
+			if(centerY < CastleY[i] && CastleY[i] - centerY < castleWidth*3) {
+				return true;
+			}
+		}
+		return false;
+	}
     
 
 

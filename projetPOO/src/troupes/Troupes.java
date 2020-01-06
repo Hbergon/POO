@@ -80,9 +80,9 @@ public abstract class Troupes {
 		return aimY;
 	}
 
-	public void setAim() {
-		this.aimX = cible.getPosition_x();
-		this.aimY = cible.getPosition_y();
+	public void setAim(int h, int w) {
+		this.aimX = cible.getPosition_x() + h/2;
+		this.aimY = cible.getPosition_y() + w/2;
 	}
 	
 	public Boolean getLastX() {
@@ -101,9 +101,9 @@ public abstract class Troupes {
 		return cible;
 	}
 
-	public void setCible(Chateau cible) {
+	public void setCible(Chateau cible, int h, int w) {
 		this.cible = cible;
-		this.setAim();
+		this.setAim(h, w);
 	}
 	
 }
