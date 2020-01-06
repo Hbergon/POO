@@ -8,9 +8,10 @@ package main;
 import struct.Chateau;
 import struct.Player;
 import troupes.*;
-import troupes.Troupes;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -32,8 +33,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private final Random rnd = new Random();
-    final static int WIDTH= 1000;
-    final static int HEIGHT= 1000;
+    final static int WIDTH= 800;
+    final static int HEIGHT= 800;
     static int NB_CASTLE;
     static int castleHeight;
     static int castleWidth;
@@ -56,12 +57,11 @@ public class Main extends Application {
   AnimationTimer gameLoop;
   
 
-  ArrayList<Chateau> castles = new ArrayList<>();/*tout les chateau*/
+  ArrayList<Chateau> castles = new ArrayList<>();
   ArrayList<Troupes> outdoorTroupes = new ArrayList<>();
 
  
 
-  int cptTour = 0;
   int[] CastleX = new int[MAX_NEUTRAL_CASTLE];
   int[] CastleY = new int[MAX_NEUTRAL_CASTLE];
   
@@ -94,13 +94,8 @@ Group castle_r;
     	castles.add(chateau_1);
     	castles.add(chateau_2);
     	
-    	Chateau[] chateauNeutres = new Chateau[NB_CASTLE-2];
     	
-    	for(int i = 0; i<NB_CASTLE-2; i++) {
-    		chateauNeutres[i] = new Chateau(Neutre, CastleX[i+2], CastleY[i+2]);
-    		castles.add(chateauNeutres[i]);
-    	}
-    	
+    	initNeutralCastles(Neutre);
     	
     	
     	
@@ -143,6 +138,12 @@ Group castle_r;
 	
                 @Override
                 public void handle(ActionEvent event) {
+                	int[] armee = new int[4];
+                	/*a changer*/
+                	armee[0] = 3;
+                	
+                	
+                	order(chateau_1, chateau_2, armee);
                     newWindow.close();
 	}});
 		
@@ -175,42 +176,16 @@ Group castle_r;
 		gameLoop = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				
-				
-				
-				cptTour ++; /*num�ro du tour*/
-//				System.out.println("tour : " + cptTour); /*pour voir quel tour on est */
-
-                                                                      
+	                                           
 				updateCastles();
 				updateTroupes();
-                                                            
-				/*sc�nario de test*/
-				
-				
-//				System.out.println(" proprio : " + chateau_2.getPlayer());
-				
-				if(chateau_1.getTresor() > 100) {
-//					System.out.println("==========================");
+                                                            				
+				//if(chateau_1.getTresor() > 100) {
 					chateau_1.addProd(new Piquier());
-				}
+					//chateau_1.addSomeTroupe(new Piquier());
+				//}
 				
-				if(chateau_2.getList().size() < 2 && cptTour  < 50) {
-					chateau_2.addProd(new Piquier());
-				}
-				
-				
-				
-				
-				if(chateau_1.troupe.size() >= 1 && cptTour < 100 && cptTour > 50) {
-//					System.out.println(" ////////// " + chateau_1.troupe.get(0));
-					order(chateau_1, chateau_2);
-					
-				}
-				
-				/**/
-			
-                                                           
+                    
 			}
 
 		};
@@ -247,6 +222,10 @@ Group castle_r;
         
     }
     
+   /* ImageView[] Showcastle(int i) {
+    	return
+    };*/
+    
     
     /*mettre version javafx*/
     /*sert a savoir la pos ou sort la troupe en prenant en compte l'orientation*/
@@ -276,25 +255,53 @@ Group castle_r;
     
     /*mettre version java fx*/
     /*fait sortir les troupes et leurs donnent une cible*/
-    private void order(Chateau origine, Chateau destination){
+    private void order(Chateau origine, Chateau destination, int[] tailleArmee){
     	
     	int x = destination.getPosition_x();
     	int y = destination.getPosition_y();
     	Troupes tmp;
     	
-    	while(!origine.getTroupe().isEmpty()) {
-
-    		tmp = origine.getSomeTroupe(0);
-    		
-    		tmp.setCible(destination, castleHeight, castleWidth);
-        	leaveCastle(tmp, origine);
-        	origine.removeTroupeFirst();
-        	outdoorTroupes.add(tmp);
-        	show_troupe(outdoorTroupes.size()-1);
-    	}
+    	int cpt=0;
     	
+    	while(cpt < origine.getTroupe().size()) {
+    		tmp = origine.getTroupe().get(cpt);
+ 
+		
+    		if(tailleArmee[0] != 0 && tmp.getClass() == Piquier.class ) {
+    			tailleArmee[0] = tailleArmee[0]-1;
+    			orderAux( origine,  destination,  tmp, cpt);
+    		}else {
+	    		if(tailleArmee[1] != 0 && tmp.getClass() == Chevalier.class ) {
+	    			tailleArmee[1] = tailleArmee[1]-1;
+	    			orderAux( origine,  destination,  tmp, cpt);
+	        	}else {
+		        	if(tailleArmee[2] != 0 && tmp.getClass() == Onagre.class ) {
+		        		tailleArmee[2] = tailleArmee[2]-1;
+		        		orderAux( origine,  destination,  tmp, cpt);
+		            }else {
+			            if(tailleArmee[3] != 0 && tmp.getClass() == Convoyeur.class ) {
+			            	tailleArmee[3] = tailleArmee[3]-1;
+			            	orderAux( origine,  destination,  tmp, cpt);
+			            }else {
+			            	cpt++;
+			            }
+		            }
+	        	}
+    		}
+    	}
+
+      
     }
     
+    private void orderAux(Chateau origine, Chateau destination, Troupes t, int ind) {
+    	t = origine.getSomeTroupe(ind);
+        t.setCible(destination, castleHeight, castleWidth);
+        leaveCastle(t, origine);
+        origine.removeTroupe(ind);
+        outdoorTroupes.add(t);
+        show_troupe(outdoorTroupes.size()-1);
+        return;
+    }
     
     
     
@@ -372,11 +379,20 @@ Group castle_r;
     	if(x >= (t.getAimX()-(castleWidth)/2) && (t.getAimY()- (castleHeight)/2 )<= y && x <= (t.getAimX() + (castleWidth)/2) && (t.getAimY() +  (castleHeight)/2) >= y) {
     		t.getCible().TroupeInteraction(t);
     		outdoorTroupes.remove(ind);
-            destroy_troupes(outdoorTroupes.size());
+            destroy_troupes(ind);
+            
+            int size = castles.size();
+            
+            for(int i = 0; i < size; i++) {
+            	if(castles.get(i) == t.getCible()) {
+            		/*ici mettre actualisation sur castle[i]*/
+            		break;
+            	}
+            }
     		
     		return true;
     	}
-    	
+    	   	
     	t.setPosition_x(x);
     	t.setPosition_y(y);
     	troupes.getChildren().get(ind).setTranslateX(outdoorTroupes.get(ind).getPosition_x());
@@ -444,6 +460,7 @@ Group castle_r;
 		Boolean notValidPos = true;
 	   	 
 	   	while(notValidPos) {
+	   		
 	   		randYSecond = (int) (rnd.nextFloat()*HEIGHT-castleHeight);
 	   		randXSecond = (int) (rnd.nextFloat()*HEIGHT-castleWidth);
 	   		
@@ -454,7 +471,8 @@ Group castle_r;
 	   			randXSecond = randXSecond + castleWidth;
 			}
 	   			
-	   		notValidPos = isInArea(randYSecond, randXSecond, ind);
+	   		notValidPos = isInArea(randXSecond, randYSecond, ind);
+	   		
 	   	}
 	    CastleX[ind] = randXSecond;
 	    CastleY[ind] = randYSecond;
@@ -462,26 +480,48 @@ Group castle_r;
 	
 	private Boolean isInArea(int x, int y, int ind) {
 		int centerX = x + castleHeight/2;
-		int centerY = x + castleWidth/2;
+		int centerY = y + castleWidth/2;
+		
+		int centerXOther;
+		int centerYOther;
 		
 		for(int i =0; i < ind; i++) {
-			if(centerX > CastleX[i] && centerX - CastleX[i] < castleHeight*3) {
-				return true;
+			
+			centerXOther = CastleX[i]+ castleHeight/2;
+			centerYOther = CastleY[i] + castleWidth/2;
+			
+			if(centerX > centerXOther  && centerX - centerXOther < castleHeight*2) {
+				if(centerY > centerYOther && centerY - centerYOther < castleWidth*2) {
+					return true;
+				}
+				if(centerY < centerYOther && centerYOther - centerY < castleWidth*2) {
+					return true;
+				}
 			}
-			if(centerX < CastleX[i] && CastleX[i] - centerX < castleHeight*3) {
-				return true;
-			}
-			if(centerY > CastleX[i] && centerY - CastleX[i] < castleWidth*3) {
-				return true;
-			}
-			if(centerY < CastleY[i] && CastleY[i] - centerY < castleWidth*3) {
-				return true;
+			if(centerX < centerXOther && centerXOther - centerX < castleHeight*2) {
+				if(centerY > centerYOther && centerY - centerYOther < castleWidth*2) {
+					return true;
+				}
+				if(centerY < centerYOther && centerYOther - centerY < castleWidth*2) {
+					return true;
+				}
 			}
 		}
 		return false;
 	}
     
-
+	private void initNeutralCastles(Player neutre) {
+    	Chateau[] chateauNeutres = new Chateau[NB_CASTLE-2];
+    	
+    	int randArmySize = (int) (rnd.nextFloat()*5);
+    	for(int i = 0; i<NB_CASTLE-2; i++) {
+    		chateauNeutres[i] = new Chateau(neutre, CastleX[i+2], CastleY[i+2]);
+    		for(int j =0; j < randArmySize; j++) {
+    			chateauNeutres[i].addSomeTroupe(new Piquier());
+    		}
+    		castles.add(chateauNeutres[i]);
+    	}
+	}
 
 
     public static void main(String[] args) {

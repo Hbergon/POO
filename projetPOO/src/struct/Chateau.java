@@ -2,7 +2,7 @@ package struct;
 
 import java.util.ArrayList;
 
-import troupes.Troupes;
+import troupes.*;
 
 public class Chateau extends Royaume{
 	private int lvl=1;
@@ -15,6 +15,7 @@ public class Chateau extends Royaume{
 	private int orientation;
 	private int tresor;
 	private int position_x, position_y;
+	public Object getTroupe;
 	
 	
 	public Chateau(Player proprio, int x, int y){
@@ -41,12 +42,22 @@ public class Chateau extends Royaume{
 		return troupe.get(ind);
 	}
 	
+	public void addSomeTroupe(Troupes t) {
+		troupe.add(t);
+		return;
+	}
+	
 	public ArrayList<Troupes> getTroupe() {
 		return troupe;
 	}
 	
 	public void removeTroupeFirst() {
 		troupe.remove(0);
+		return;
+	}
+	
+	public void removeTroupe(int ind) {
+		troupe.remove(ind);
 		return;
 	}
 	
@@ -178,7 +189,11 @@ public class Chateau extends Royaume{
 		if(tr.getPlayer() != this.proprio) {
 			this.attaque(tr);
 		}else{
-			this.troupe.add(tr.copy());
+			if(tr.getClass() == Convoyeur.class) {
+				convoyeurInteraction((Convoyeur) tr);
+			}else {
+				this.troupe.add(tr.copy());
+			}
 		}
 	}
 
@@ -196,6 +211,10 @@ public class Chateau extends Royaume{
 				this.troupe.remove(0);
 			}
 		}
+	}
+	
+	public void convoyeurInteraction(Convoyeur c) {
+		this.setTresor(getTresor() + c.getTresor());
 	}
 	
 

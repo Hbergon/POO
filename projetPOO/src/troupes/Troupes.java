@@ -10,7 +10,6 @@ public abstract class Troupes {
 	private int speed;
 	private int pdv;
 	private int deg;
-	private String name;
 	private int position_x, position_y;
 	private int aimX, aimY;
 	private Chateau cible;
@@ -39,10 +38,6 @@ public abstract class Troupes {
 		return deg;
 	}
 	
-	public String getName() {
-		return name;
-	}
-
 	public void setPdv(int vie) {
 		pdv=vie;
 		return;
