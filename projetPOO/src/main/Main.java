@@ -70,7 +70,7 @@ public class Main extends Application {
 Group troupes= new Group();
 Group root;
 Scene scene;
-
+Group castle_r;
 
     @Override
     public void start(Stage primaryStage) {
@@ -82,7 +82,7 @@ Scene scene;
         
         final ImageView background = new ImageView(BACKGROUND);
         final ImageView castle[]= Showcastles();
-        final Group castle_r = new Group(castle);
+        castle_r = new Group(castle);
 
             castle_r.setEffect(new DropShadow());
             
@@ -132,7 +132,7 @@ Scene scene;
 				
 				
 				cptTour ++; /*num�ro du tour*/
-				System.out.println("tour : " + cptTour); /*pour voir quel tour on est */
+//				System.out.println("tour : " + cptTour); /*pour voir quel tour on est */
 
                                                                       
 				updateCastles();
@@ -141,10 +141,10 @@ Scene scene;
 				/*sc�nario de test*/
 				
 				
-				System.out.println(" proprio : " + chateau_2.getPlayer());
+//				System.out.println(" proprio : " + chateau_2.getPlayer());
 				
 				if(chateau_1.getTresor() > 100) {
-					System.out.println("==========================");
+//					System.out.println("==========================");
 					chateau_1.addProd(new Piquier());
 				}
 				
@@ -156,7 +156,7 @@ Scene scene;
 				
 				
 				if(chateau_1.troupe.size() >= 1 && cptTour < 100 && cptTour > 50) {
-					System.out.println(" ////////// " + chateau_1.troupe.get(0));
+//					System.out.println(" ////////// " + chateau_1.troupe.get(0));
 					order(chateau_1, chateau_2);
 					
 				}
@@ -249,6 +249,7 @@ Scene scene;
               troupe.setTranslateX(outdoorTroupes.get(i).getPosition_x());
                 troupe.setTranslateY(outdoorTroupes.get(i).getPosition_y());
             troupes.getChildren().add(troupe);
+           
 
     }
 
@@ -309,7 +310,7 @@ Scene scene;
     	if(x == t.getAimX() && t.getAimY() == y) {
     		t.getCible().TroupeInteraction(t);
     		outdoorTroupes.remove(ind);
-                                    destroy_troupes(outdoorTroupes.size()-1);
+                                    destroy_troupes(outdoorTroupes.size());
     		/*ici suppr l'affichage de cette troupes*/
                                     
     		
