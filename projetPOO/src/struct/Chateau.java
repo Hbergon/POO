@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import troupes.*;
 
-public class Chateau extends Royaume{
+public class Chateau extends Structure{
 	private int lvl=1;
 	private Player proprio;
 	public ArrayList<Troupes> troupe;
@@ -15,7 +15,6 @@ public class Chateau extends Royaume{
 	private int orientation;
 	private int tresor;
 	private int position_x, position_y;
-	public Object getTroupe;
 	
 	
 	public Chateau(Player proprio, int x, int y){
