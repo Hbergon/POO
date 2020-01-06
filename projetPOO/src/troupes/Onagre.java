@@ -1,5 +1,8 @@
 package troupes;
 
+
+/**Classe fille de Troupes
+ * @see Troupes*/
 public class Onagre extends Troupes {
 	int cout= 1000;
 	int tmpProd= 50;

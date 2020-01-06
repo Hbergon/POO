@@ -39,7 +39,7 @@ public abstract class Troupes {
 	private int deg;
 	/**Position actuelle sur l'axe des abscisse de l'unité 
 	 * @see Main#newPos(Troupes, int)*/
-	private int position_x, 
+	private int position_x;
 	/**Position actuelle sur l'axe des ordonnées de l'unité 
 	 * @see Main#newPos(Troupes, int)*/
 	private int position_y;
